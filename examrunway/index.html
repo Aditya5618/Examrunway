@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ExamRunway: Day-by-day exam study planner</title>
+<meta name="description" content="Turn your exam date and topics into a realistic daily study checklist.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <span class="brand">ExamRunway</span>
+  <ol id="steps" aria-label="Progress" hidden>
+    <li data-s="setup">1 Setup</li><li data-s="topics">2 Topics</li><li data-s="plan">3 Plan</li>
+  </ol>
+</header>
+<main id="main">
+  <section id="landing" class="screen">
+    <h1>Know exactly what to study today.</h1>
+    <p class="lead">Add your exam date and topics. ExamRunway gives hard topics more time, saves the last days for revision, and turns it all into a daily checklist.</p>
+    <div class="runway" aria-hidden="true"><span>Today</span><span>Exam day</span></div>
+    <div class="actions">
+      <button class="btn primary" id="startBtn">Plan my exam</button>
+      <button class="btn sec" id="resumeBtn" hidden>Continue my plan</button>
+    </div>
+  </section>
+
+  <section id="setup" class="screen" hidden>
+    <h2>Your exam</h2>
+    <form id="setupForm" class="card" novalidate>
+      <div id="setupErr" class="err" role="alert" hidden></div>
+      <div class="field"><label for="name">Exam name</label>
+        <input type="text" id="name" maxlength="60" placeholder="e.g. Physics final" autocomplete="off"></div>
+      <div class="row">
+        <div class="field"><label for="date">Exam date</label><input type="date" id="date"></div>
+        <div class="field"><label for="hours">Study hours per day</label>
+          <input type="number" id="hours" min="0.5" max="12" step="0.5" value="3"></div>
+      </div>
+      <fieldset><legend>Rest days (no study)</legend>
+        <div class="days-row" id="rest"></div></fieldset>
+      <div class="actions">
+        <button type="button" class="btn sec" data-go="landing">Back</button>
+        <button type="submit" class="btn primary">Next: add topics</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="topics" class="screen" hidden>
+    <h2>Your topics</h2>
+    <form id="topicForm" class="card" novalidate>
+      <div id="topicErr" class="err" role="alert" hidden></div>
+      <div class="field"><label for="tname">Topic name</label>
+        <input type="text" id="tname" maxlength="40" placeholder="e.g. Thermodynamics" autocomplete="off"></div>
+      <div class="row">
+        <div class="field"><label for="diff">How hard is it?</label>
+          <select id="diff"><option value="1">1 Easy</option><option value="2" selected>2 Medium</option><option value="3">3 Hard</option></select></div>
+        <div class="field"><label for="conf">How confident are you?</label>
+          <select id="conf"><option value="1" selected>1 Low</option><option value="2">2 Okay</option><option value="3">3 High</option></select></div>
+      </div>
+      <button type="submit" class="btn sec">Add topic</button>
+    </form>
+    <ul id="topicList" class="list" aria-label="Added topics"></ul>
+    <div id="topicErr2" class="err" role="alert" hidden></div>
+    <div class="actions">
+      <button type="button" class="btn sec" data-go="setup">Back</button>
+      <button type="button" class="btn primary" id="makePlan">Create my plan</button>
+    </div>
+  </section>
+
+  <section id="plan" class="screen" hidden>
+    <h2 id="planTitle">Your plan</h2>
+    <div class="card">
+      <div class="progress" role="progressbar" aria-label="Plan progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="bar"></div></div>
+      <p id="pct" class="muted"></p>
+    </div>
+    <div id="done" class="ok-box" role="status" hidden>All tasks done. You are ready for exam day. Good luck!</div>
+    <div id="days"></div>
+    <div class="actions">
+      <button type="button" class="btn sec" data-go="topics">Edit topics</button>
+      <button type="button" class="btn sec" id="copyBtn">Copy plan</button>
+      <button type="button" class="btn sec" id="printBtn">Print</button>
+      <button type="button" class="btn sec" id="resetBtn">Start over</button>
+    </div>
+  </section>
+  <div id="toast" role="status" aria-live="polite"></div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
